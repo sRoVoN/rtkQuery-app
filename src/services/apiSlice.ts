@@ -3,7 +3,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { v4 as uuidv4 } from "uuid";
 
 export interface User {
-  id: string; // حالا string برای UUID
+  id: string; 
   name: string;
   username: string;
   email: string;
@@ -48,7 +48,6 @@ export const userApi = createApi({
 
     const localUsers = getLocalUsers();
 
-    // ✅ merge: اگر یوزر توی localStorage هست → override کن
     const merged = apiUsers.map((apiUser: User) => {
   const override = localUsers.find((lu: User) => lu.id === apiUser.id);
   return override ? { ...apiUser, ...override } : apiUser;
@@ -70,11 +69,10 @@ const onlyLocal = localUsers.filter(
 }),
   getUser: builder.query<User | undefined, string>({
   queryFn: async (id) => {
-    // اول localStorage رو چک کن
+
     const localUser = getLocalUsers().find(u => u.id === id);
     if (localUser) return { data: localUser };
 
-    // بعد fetch از API
     const res = await fetch(`https://jsonplaceholder.typicode.com/users/${id}`);
     if (!res.ok) return { error: { status: res.status, data: await res.text() } };
     const data = await res.json();
@@ -120,10 +118,10 @@ const onlyLocal = localUsers.filter(
     const index = localUsers.findIndex((u) => u.id === id);
 
     if (index !== -1) {
-      // یوزر لوکال → آپدیت مستقیم
+
       localUsers[index] = { ...localUsers[index], ...data };
     } else {
-      // یوزر API → یا بساز override یا آپدیتش کن
+
       localUsers.push({ id, ...data } as User);
     }
 
@@ -147,19 +145,15 @@ const onlyLocal = localUsers.filter(
 }),
     deleteUser: builder.mutation<void, string>({
   queryFn: async (id) => {
-    // 1️⃣ گرفتن لیست فعلی از localStorage
+
     const localUsers = getLocalUsers();
 
-    // 2️⃣ فیلتر کردن یوزری که میخوای حذف کنی
     const filtered = localUsers.filter(u => u.id !== id);
 
-    // 3️⃣ ذخیره مجدد در localStorage
     setLocalUsers(filtered);
 
-    // 4️⃣ برگردوندن void
     return { data: undefined };
   },
-  // اپتیمیستیک: وقتی کش getUsers آپدیت میشه
   async onQueryStarted(id, { dispatch, queryFulfilled }) {
     const patchResult = dispatch(
       userApi.util.updateQueryData("getUsers", undefined, (draft) => {
@@ -170,7 +164,7 @@ const onlyLocal = localUsers.filter(
     try {
       await queryFulfilled;
     } catch {
-      patchResult.undo(); // rollback در صورت خطا
+      patchResult.undo();
     }
   },
   invalidatesTags: (_result, _error, id) => [{ type: "Users", id }],

@@ -2,7 +2,7 @@
 .add-user-form,
 .edit-user-form {
   max-width: 500px;
-  margin: auto; /* افقی وسط */
+  margin: auto; 
   padding: 2rem;
   border-radius: 1rem;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
@@ -10,7 +10,7 @@
   color: #111111;
   transition: background-color 0.3s ease, color 0.3s ease;
 
-  /* وسط چین عمودی */
+
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -38,7 +38,7 @@
     transition: border-color 0.2s ease, background-color 0.2s ease;
 
     &:focus {
-      border-color: #facc15; /* رنگ طلایی برای focus */
+      border-color: #facc15; 
       outline: none;
       background-color: #fff9e6;
     }

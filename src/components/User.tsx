@@ -16,13 +16,22 @@ export default function UserDetails() {
       <button onClick={() => navigate("/")}>Back</button>
       <div className="user-card">
         <h2>{user.name}</h2>
-        <p><strong>Username:</strong> {user.username}</p>
-        <p><strong>Email:</strong> {user.email}</p>
-        <p><strong>Phone:</strong> {user.phone}</p>
-        <p><strong>Website:</strong> {user.website}</p>
-        <p><strong>Address:</strong> {user.address.city}, {user.address.street}</p>
+        <p>
+          <strong>Username:</strong> {user.username}
+        </p>
+        <p>
+          <strong>Email:</strong> {user.email}
+        </p>
+        <p>
+          <strong>Phone:</strong> {user.phone}
+        </p>
+        <p>
+          <strong>Website:</strong> {user.website}
+        </p>
+        <p>
+          <strong>Address:</strong> {user.address.city}, {user.address.street}
+        </p>
       </div>
     </div>
   );
 }
-
